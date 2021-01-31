@@ -3,11 +3,11 @@
 #include <iostream>
 
 int Block::height() const {
-  return this->data[0].size();
+  return this->data.size();
 }
 
 int Block::width() const {
- return this->data.size();
+ return this->data[0].size();
 }
 
 /**
@@ -31,10 +31,13 @@ void Block::render(PNG &im, int x) const {
    * in img. Assumes img is large enough to supply these pixels.
    */
 void Block::build(PNG &im, int x, int width) {
+  unsigned int h = im.height();
+  data.resize(x+width);
   for (int i = x; i < x+width; i++)   {
-    for (unsigned int j = 0; j < im.height(); j++){
+    data[i].resize(h);
+    for (unsigned int j = 0; j < h; j++){
       HSLAPixel *pixel = im.getPixel(i, j);
-      this->data[i][j] = *pixel;
+      data[i][j] = *pixel; 
    }
  }
 }
