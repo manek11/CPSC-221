@@ -29,7 +29,7 @@ void Block::build(PNG &im, int x, int width) {
   for (int i = x; i < x+width; i++)   {
     for (unsigned int j = 0; j < im.height(); j++)
    { HSLAPixel *pixel = im.getPixel(i, j);
-      data[i][j] = *pixel;
+      this->data[i][j] = *pixel;
    }
  }
 }
