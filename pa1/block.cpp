@@ -7,7 +7,7 @@ int Block::height() const {
 }
 
 int Block::width() const {
- return this->data[0].size();
+  return this->data[0].size();
 }
 
 /**
@@ -31,12 +31,13 @@ void Block::render(PNG &im, int x) const {
    * in img. Assumes img is large enough to supply these pixels.
    */
 void Block::build(PNG &im, int x, int width) {
-  unsigned int h = im.height();
+  unsigned int height = im.height();
+
   data.resize(x+width);
-  for (int i = x; i < x+width; i++)   {
-    data[i].resize(h);
-    for (unsigned int j = 0; j < h; j++){
-      HSLAPixel *pixel = im.getPixel(i, j);
+  for (int i = 0; i < x+width; i++)   {
+    data[i].resize(height);
+    for (unsigned int j = 0; j < height; j++){
+      HSLAPixel *pixel = im.getPixel(x+i, j);
       data[i][j] = *pixel; 
    }
  }
