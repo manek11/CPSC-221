@@ -3,11 +3,12 @@
 #include <iostream>
 
 int Block::height() const {
-  return this->data.size();
+  if(!data.size()) return 0;
+  return this->data[0].size();
 }
 
 int Block::width() const {
- return this->data[0].size();
+ return this->data.size();
 }
 
 /**
@@ -17,8 +18,10 @@ int Block::width() const {
    */
 void Block::render(PNG &im, int x) const {
   /* your code here */
-  for (int i=x; i<this->width()+x; i++){
-    for (int j=0; j<this->height(); j++){
+  int height = this->height();
+  int width = this->width(); 
+  for (int i=x; i<(width+x); i++){
+    for (int j=0; j<height; j++){
       HSLAPixel *pixel = im.getPixel(i,j); 
       *pixel = this->data[i-x][j];
     }
@@ -32,12 +35,12 @@ void Block::render(PNG &im, int x) const {
    */
 void Block::build(PNG &im, int x, int width) {
   unsigned int h = im.height();
-  data.resize(x+width);
+  data.resize(width);
   for (int i = x; i < x+width; i++)   {
     data[i].resize(h);
     for (unsigned int j = 0; j < h; j++){
       HSLAPixel *pixel = im.getPixel(i, j);
-      data[i][j] = *pixel; 
+      data[i-x][j] = *pixel; 
    }
  }
 }
