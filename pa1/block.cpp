@@ -35,9 +35,10 @@ void Block::render(PNG &im, int x) const {
    */
 void Block::build(PNG &im, int x, int width) {
   unsigned int h = im.height();
-  data.resize(width);
+  data = vector<vector<HSLAPixel>> (h, vector<HSLAPixel> (width));
+  //data.resize(x+width);
   for (int i = x; i < x+width; i++)   {
-    data[i].resize(h);
+    //data[i].resize(h);
     for (unsigned int j = 0; j < h; j++){
       HSLAPixel *pixel = im.getPixel(i, j);
       data[i-x][j] = *pixel; 
