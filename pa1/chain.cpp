@@ -10,9 +10,13 @@
  * memory does not leak on destruction of a chain.
  */
 Chain::~Chain() {
-  delete this->head_;
-  this->head_ = NULL;
-  this->length_ = 0;
+  Node *tmp;
+  while(this->head_ != NULL){
+    tmp = this->head_;
+    this->head_ = this->head_->next;
+    delete tmp;
+  }
+
 }
 
 /**
@@ -32,12 +36,10 @@ Chain::Node * Chain::insertAfter(Node * p, const Block &ndata) {
   if (p == NULL && this->head_ == NULL)
   {
     this->head_ = newn;
-    cout << "reached if" << endl;
     return newn;
   }
   else if(p == NULL){ /*Newn is HEAD*/
     newn->next = this->head_->next;
-    cout << "reached elif" << endl;
     newn->prev = NULL;
     this->head_->next->prev = newn;
     this->head_ = newn;
@@ -46,15 +48,10 @@ Chain::Node * Chain::insertAfter(Node * p, const Block &ndata) {
   else 
   { 
     //Node *pnext = p->next;
-    cout << "reached else" << endl;
     newn->prev = p;
-    cout << "reached else 51" << endl;
     newn->next = p->next;
-    cout << "reached else 53" << endl;
     //p->next->prev = newn;
-    cout << "reached else 55" << endl;
     p->next = newn;
-    cout << "reached else 58" << endl;
     return newn;
   }
 
