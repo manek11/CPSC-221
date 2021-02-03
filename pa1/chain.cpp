@@ -16,7 +16,7 @@ Chain::~Chain() {
     this->head_ = this->head_->next;
     delete tmp;
   }
-
+  this->length_ = 0;
 }
 
 /**
@@ -36,22 +36,33 @@ Chain::Node * Chain::insertAfter(Node * p, const Block &ndata) {
   if (p == NULL && this->head_ == NULL)
   {
     this->head_ = newn;
+    //cout << "reacched if" << endl;
+    this->length_++;
     return newn;
   }
   else if(p == NULL){ /*Newn is HEAD*/
-    newn->next = this->head_->next;
+    newn->next = this->head_;
     newn->prev = NULL;
-    this->head_->next->prev = newn;
-    this->head_ = newn;
+    this->head_->prev = newn;
+    this->head_ = newn; /*this has to be the last*/
+    this->length_++;
     return newn;
   }
   else 
   { 
-    //Node *pnext = p->next;
-    newn->prev = p;
-    newn->next = p->next;
-    //p->next->prev = newn;
+    Node *pnext = p->next;
+    //cout << "reached else" << endl;
+    Node *pnextprev;
+    if(pnext != NULL){
+    pnextprev = pnext->prev;
+    }
+    newn->next = pnext;
+    pnextprev = newn;
+
     p->next = newn;
+    newn->prev = p;
+
+    this->length_++;
     return newn;
   }
 
@@ -72,7 +83,13 @@ void Chain::swap(Node *p, Node *q) {
  * current Chain class.
  */
 void Chain::clear() {
-  /* your code here */
+  Node *tmp;
+  while(this->head_ != NULL){
+    tmp = this->head_;
+    this->head_ = this->head_->next;
+    delete tmp;
+  }
+  this->length_ = 0;
 }
 
 /**
@@ -83,7 +100,12 @@ void Chain::clear() {
  * constructor and the assignment operator for Chains.
  */
 void Chain::copy(Chain const &other) {
-  /* your code here */
+    Chain *copied = new Chain();
+    Node *tmp = other.head_;
+    for( int i=0; i < other.size(); i++ ) {
+    copied->head_ = insertAfter(copied->head_, tmp->data);
+    tmp = tmp->next;
+  }
 }
 
 /* Modifies the current chain: 
