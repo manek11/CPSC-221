@@ -75,7 +75,27 @@ Chain::Node * Chain::insertAfter(Node * p, const Block &ndata) {
  * Change the chain's head pointer if necessary.
  */
 void Chain::swap(Node *p, Node *q) {
-  /* your code here */
+  if(p == NULL || q  == NULL || p == q){
+    return;
+  }
+  Node *pprev = p->prev;
+  Node *qprev = q->prev;
+  const Block pdata = p->data;
+  const Block qdata = q->data;
+  if (p->prev != NULL) pprev->next = p->next;
+  if (p->next != NULL) p->next->prev = pprev;
+  delete p;
+  if (q->prev != NULL) qprev->next = q->next;
+  if (q->next != NULL) q->next->prev = qprev;
+  delete q;
+  
+  Node *qcurr = insertAfter(pprev, qdata);
+  Node *pcurr = insertAfter(qprev, pdata);
+
+  return;
+
+  
+  
 }
 
 /**
