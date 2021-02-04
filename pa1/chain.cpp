@@ -76,6 +76,37 @@ Chain::Node * Chain::insertAfter(Node * p, const Block &ndata) {
  */
 void Chain::swap(Node *p, Node *q) {
   /* your code here */
+
+  if( p==q || p==NULL || q==NULL){
+    return;
+  }
+  
+  if (p->next!=NULL && q->next!=NULL && p->prev!=NULL && q->prev!=NULL){
+    //General case (No head or tail)
+    //Node *p_prev_next = p->prev->next;
+    Node *p_prev = p->prev;
+    Node *p_next = p->next;
+    //Node *p_next_prev = p->next->prev;
+    Node *old_p = p;
+
+    //Node *q_prev_next = q->prev->next;
+    Node *q_prev = q->prev;
+    Node *q_next = q->next;
+    //Node *q_next_prev = q->next->prev;
+    Node *old_q = q;
+
+    p->prev->next = q;
+    q->prev = p_prev;
+    q->next = p_next;
+    p->next->prev = old_q;
+
+    q->prev->next = old_p;
+    p->prev = q_prev;
+    p->next = q_next;
+    q->next->prev = old_p;
+
+    return;  
+  }
 }
 
 /**
