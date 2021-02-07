@@ -75,27 +75,138 @@ Chain::Node * Chain::insertAfter(Node * p, const Block &ndata) {
  * Change the chain's head pointer if necessary.
  */
 void Chain::swap(Node *p, Node *q) {
-  if(p == NULL || q  == NULL || p == q){
+  /* your code here */
+
+  if( p==q || p==NULL || q==NULL){
     return;
   }
-  Node *pprev = p->prev;
-  Node *qprev = q->prev;
-  const Block pdata = p->data;
-  const Block qdata = q->data;
-  if (p->prev != NULL) pprev->next = p->next;
-  if (p->next != NULL) p->next->prev = pprev;
-  delete p;
-  if (q->prev != NULL) qprev->next = q->next;
-  if (q->next != NULL) q->next->prev = qprev;
-  delete q;
-  
-  Node *qcurr = insertAfter(pprev, qdata);
-  Node *pcurr = insertAfter(qprev, pdata);
+  if(p == head_ && q->next == NULL){
+     Node *qprv = q->prev;
+     Node *pnxt = p->next;
 
-  return;
+     head_ = q;
+     q->prev = NULL;
+     q->next = pnxt;
+     pnxt->prev = q;
 
+     p->next = NULL;
+     p->prev = qprv;
+     qprv->next = p;
+
+     return;
+  }
+
+    if(q == head_ && p->next == NULL){
+     Node *pprv = p->prev;
+     Node *qnxt = q->next;
+
+     head_ = p;
+     p->prev = NULL;
+     p->next = qnxt;
+     qnxt->prev = p;
+
+     q->next = NULL;
+     q->prev = pprv;
+     pprv->next = q;
+
+     return;
+  }
   
-  
+  if (p->next!=NULL && q->next!=NULL && p->prev!=NULL && q->prev!=NULL){
+    //General case (No head or tail) also works for adjacent cases
+    //Node *p_prev_next = p->prev->next;
+    Node *p_prev = p->prev;
+    Node *p_next = p->next;
+    //Node *p_next_prev = p->next->prev;
+    Node *old_p = p;
+
+    //Node *q_prev_next = q->prev->next;
+    Node *q_prev = q->prev;
+    Node *q_next = q->next;
+    //Node *q_next_prev = q->next->prev;
+    Node *old_q = q;
+
+    p->prev->next = q;
+    q->prev = p_prev;
+    q->next = p_next;
+    p->next->prev = old_q;
+
+    q->prev->next = old_p;
+    p->prev = q_prev;
+    p->next = q_next;
+    q->next->prev = old_p;
+    
+    return;  
+  }
+
+  if(p == head_){
+     Node *qprv = q->prev;
+     Node *qnxt = q->next;
+     //Node *pprv = p->prev;
+     Node *pnxt = p->next;
+
+     head_ = q;
+     q->prev = NULL;
+     q->next = pnxt;
+     pnxt->prev = q;
+
+     p->next = qnxt;
+     p->prev = qprv;
+     qprv->next = p;
+     qnxt->prev = p;
+
+     return;
+  }
+  if(q == head_){
+    // Node *qprv = q->prev;
+     Node *qnxt = q->next;
+     Node *pprv = p->prev;
+     Node *pnxt = p->next;
+
+     head_ = p;
+     p->prev = NULL;
+     p->next = qnxt;
+     qnxt->prev = p;
+
+     q->next = pnxt;
+     q->prev = pprv;
+     pprv->next = q;
+     pnxt->prev = q;
+     return ;
+  }
+  if(p->next == NULL){
+     Node *qprv = q->prev;
+     Node *qnxt = q->next;
+     Node *pprv = p->prev;
+     Node *pnxt = p->next;
+
+     q->next = NULL;
+     q->prev = pprv;
+     pprv->next = q;
+
+     p->next = qnxt;
+     p->prev = qprv;
+     qprv->next = p;
+     qnxt->prev = p;
+     return;
+  }
+  if(q->next == NULL){
+     Node *qprv = q->prev;
+     Node *qnxt = q->next;
+     Node *pprv = p->prev;
+     Node *pnxt = p->next;
+
+     p->next = NULL;
+     p->prev = qprv;
+     qprv->next = p;
+
+     q->next = pnxt;
+     q->prev = pprv;
+     pprv->next = q;
+     pnxt->prev = q;
+     return;
+  }
+
 }
 
 /**

@@ -33,15 +33,19 @@ int main() {
   im.readFromFile("images/sun.png");
  
   Chain c(im, 5);
+  
   // randomly scramble the blocks.
-  //c.scramble();
+  //cout << "before scramble" << endl; /*(c.scramble();*/ cout << "done with scramble" << endl;
   // or test swapping a few blocks
-  //  c.testSwap(3,4); // swap the 3rd and 4th blocks.
-  //  c.testSwap(0,1);
-  //  c.testSwap(1,0);
-  //  c.testSwap(0,4);
+  //c.testSwap(3,4); // swap the 3rd and 4th blocks.
+  //cout << "Passed adjacent test" << endl;
+  //c.testSwap(2,1);
+  //cout << "Passed adjacent test" << endl;
+  c.testSwap(0, 4);
+  cout << "swapped" << endl;
+  //c.testSwap(0,4);
 
-  //c.render().writeToFile("images/scram.png");  // look at scram.png to debug
+  c.render().writeToFile("images/scram.png");  // look at scram.png to debug
 
   // test unscramble()
   //c.unscramble();
