@@ -74,11 +74,8 @@ class Chain {
 
   int length_; // number of nodes in chain.
 
-  /*
-   * Private helper functions.
-   *
-   * You may place functions here as you need them.
-   */
+  Node * getB();
+  Node * getNodeAt(int i);
 
   /* =================== private PA1 functions ============== */
 

@@ -39,12 +39,12 @@ int main() {
   // or test swapping a few blocks
   //c.testSwap(3,4); // swap the 3rd and 4th blocks.
   //cout << "Passed adjacent test" << endl;
-  //c.testSwap(2,1);
+  // c.testSwap(4, 0);
   //cout << "Passed adjacent test" << endl;
-  c.testSwap(0, 4);
+  c.testSwap(3, 4);
   cout << "swapped" << endl;
   //c.testSwap(0,4);
-
+  
   c.render().writeToFile("images/scram.png");  // look at scram.png to debug
 
   // test unscramble()

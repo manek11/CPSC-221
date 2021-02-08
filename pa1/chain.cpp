@@ -1,7 +1,7 @@
 #include "chain.h"
 #include <cmath>
 #include <iostream>
-
+#include <algorithm>
 
 // PA1 functions
 
@@ -256,5 +256,46 @@ void Chain::copy(Chain const &other) {
  *    then repeat to unscramble the chain/image.
  */
 void Chain::unscramble() {
-  /* your code here */
+  
+  
+}
+
+Node * Chain::getB(){ /*First part of discription*/
+  std::vector<double> B_values;
+  Node *tmp = this->head_;
+  for (Node *curr = this->head_;  curr != NULL; curr = curr->next){
+    std::vector<double> distances_to_p;
+    Node *p = curr->prev; /*left of curr*/
+    Node *n = curr->next; /*Right of curr*/
+    while (p != NULL)
+    {
+      distances_to_p.push_back(p->data.distanceTo(curr->data));
+      p = p->prev;
+    }
+    while (n != NULL)
+    {
+      distances_to_p.push_back(curr->data.distanceTo(n->data));
+      n = n->next;
+    }
+    double min_dist = *min_element(distances_to_p.begin(), distances_to_p.end());
+    B_values.push_back(min_dist);
+  }
+  double max_val = B_values[0];
+  int max_index = 0;
+  for (int i = 0; i < B_values.size(); i++)
+  {
+    if(B_values[i] > max_val){
+      max_val = B_values[i];
+      max_index = i;
+    }
+  }
+  Node *B = getNodeAt(max_index);
+  return B;
+}
+
+Node * Chain::getNodeAt(int i){
+  Node *p = this->head_;
+  for( int a=0; a < i; ++a )
+    p = p->next;
+  return p;    
 }
