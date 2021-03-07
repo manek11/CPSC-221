@@ -127,7 +127,6 @@ private:
 	pair<int,int> start;  // col,row
 	PNG base; // you can assume that these two images have the same dimensions, and that
 	PNG maze; // position i,j in one corresponds to position i,j in the other.
-
     // int start_i;
     // int start_j;
 
