@@ -67,7 +67,10 @@ class stats {
    */
   RGBAPixel getAvg(pair<int,int> ul, int w, int h);
 
-  // long quickSum(vector< vector< long >> sum_vect);  
+  /**
+   * HELPER FUNCTION
+   */
+  long quickSum(vector< vector< long >> sum_vect, pair<int,int> ul, int w, int h);
 
 };
 
