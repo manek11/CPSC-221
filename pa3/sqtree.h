@@ -46,10 +46,10 @@ class SQtree {
     int height;		// represented by Node in number of pixels
     RGBAPixel avg;	// average color of Node's region
     double var;		// variability over region  
-    Node * NW; // ptr to NW subtree
-    Node * NE; // ptr to NE subtree
-    Node * SE; // ptr to SE subtree
-    Node * SW; // ptr to SW subtree
+    Node * NW; // ptr to NW subtree ul
+    Node * NE; // ptr to NE subtree ur
+    Node * SE; // ptr to SE subtree br
+    Node * SW; // ptr to SW subtree bl
   };
 
  public:
@@ -151,6 +151,7 @@ class SQtree {
    */
 
   Node* root; // ptr to the root of the SQtree
+  int size_tree;
   
   /* BEGIN ============== Required private functions (NOT GIVEN) ====== */
 
@@ -182,6 +183,9 @@ class SQtree {
   /* END ================ Required private functions (NOT GIVEN) ====== */
 
   /* BEGIN ============== Your personal private functions ============= */
+  void clear(Node *Subtree);
+  Node *copy(Node *OtherRoot);
+  void render(Node* root, PNG &imIn);
 
 
   /* END ================ Your personal private functions ============= */
