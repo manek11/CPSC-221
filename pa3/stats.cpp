@@ -3,13 +3,13 @@
 #include<vector>
 
 stats::stats(PNG & im){
-    /* Your code here!! */
-    long curr_r_sum = 0; 
-    long curr_g_sum = 0; 
-    long curr_b_sum = 0; 
-    long curr_r_sqsum = 0; 
-    long curr_g_sqsum = 0; 
-    long curr_b_sqsum = 0; 
+
+    double curr_r_sum = 0; 
+    double curr_g_sum = 0; 
+    double curr_b_sum = 0; 
+    double curr_r_sqsum = 0; 
+    double curr_g_sqsum = 0; 
+    double curr_b_sqsum = 0; 
 
     int image_height = im.height();
     int image_width = im.width();
@@ -52,6 +52,7 @@ stats::stats(PNG & im){
                 sumsqGreen[i][j] = curr_g_sqsum;
                 sumsqBlue[i][j] = curr_b_sqsum;                
             }
+
             else if (i==0){
                 sumRed[i][j] = curr_r_sum + sumRed[i][j-1];
                 sumGreen[i][j] = curr_g_sum + sumGreen[i][j-1];
@@ -60,6 +61,7 @@ stats::stats(PNG & im){
                 sumsqGreen[i][j] = curr_g_sqsum + sumsqGreen[i][j-1];
                 sumsqBlue[i][j] = curr_b_sqsum + sumsqBlue[i][j-1];                
             }
+            
             else if (j==0){
                 sumRed[i][j] = curr_r_sum + sumRed[i-1][j];
                 sumGreen[i][j] = curr_g_sum + sumGreen[i-1][j];
@@ -68,6 +70,7 @@ stats::stats(PNG & im){
                 sumsqGreen[i][j] = curr_g_sqsum + sumsqGreen[i-1][j];
                 sumsqBlue[i][j] = curr_b_sqsum + sumsqBlue[i-1][j];
             }
+            
             else{
                 sumRed[i][j] = curr_r_sum - sumRed[i-1][j-1] + sumRed[i][j-1] + sumRed[i-1][j];
                 sumGreen[i][j] = curr_g_sum - sumGreen[i-1][j-1] + sumGreen[i][j-1] + sumGreen[i-1][j];
@@ -79,65 +82,61 @@ stats::stats(PNG & im){
         }
     }
 
-    
-    
 }
-
 
 long stats::getSum(char channel, pair<int,int> ul, int w, int h){
 
     if (channel == 'r'){
-        return quickSum(sumRed, ul, w, h);
+        return (double)quickSum(sumRed, ul, w, h);
         
     }
     else if (channel == 'g'){
-        return quickSum(sumGreen, ul, w, h);
+        return (double)quickSum(sumGreen, ul, w, h);
     }
 
     else{
-        return quickSum(sumBlue, ul, w, h);
+        return (double)quickSum(sumBlue, ul, w, h);
     }
+
 }
 
 long stats::getSumSq(char channel, pair<int,int> ul, int w, int h){
+
     if (channel == 'r'){
-        return quickSum(sumsqRed, ul, w, h);
+        return (double)quickSum(sumsqRed, ul, w, h);
         
     }
     else if (channel == 'g'){
-        return quickSum(sumsqGreen, ul, w, h);
+        return (double)quickSum(sumsqGreen, ul, w, h);
     }
 
     else{
-        return quickSum(sumsqBlue, ul, w, h);
+        return (double)quickSum(sumsqBlue, ul, w, h);
     }
 
 }
 
-long stats::quickSum(vector< vector< long >> sum_vect, pair<int,int> ul, int w, int h){
-
+long stats::quickSum(vector< vector< long >> &sum_vect, pair<int,int> ul, int w, int h){
 
     pair<int,int> br(ul.first+w-1, ul.second+h-1);
 
-    if(ul.first == 0 && ul.second == 0) return sum_vect[ul.first+w-1][ul.second+h-1];
-    if(ul.first == 0) return sum_vect[br.first][br.second] - sum_vect[br.first][ul.second-1];
-    if(ul.second == 0) return sum_vect[br.first][br.second] - sum_vect[ul.first-1][br.second];
-    else return sum_vect[br.first][br.second] - sum_vect[ul.first+w-1][ul.second-1] - sum_vect[ul.first-1][ul.second+h-1] + sum_vect[ul.first-1][ul.second-1] ;
+    if(ul.first == 0 && ul.second == 0) return (double) (sum_vect[ul.first+w-1][ul.second+h-1]);
+    else if(ul.first == 0) return (double) (sum_vect[br.first][br.second] - sum_vect[br.first][ul.second-1]);
+    else if(ul.second == 0) return (double) (sum_vect[br.first][br.second] - sum_vect[ul.first-1][br.second]);
+    else return (double)(sum_vect[br.first][br.second] - sum_vect[ul.first+w-1][ul.second-1] - sum_vect[ul.first-1][ul.second+h-1] + sum_vect[ul.first-1][ul.second-1]);
 
 }
 
-// given a rectangle, compute its sum of squared deviations from mean, over all color channels.
-// see written specification for a description of this function.
 double stats::getVar(pair<int,int> ul, int w, int h){
-/* Your code here!! */
-    double var = 0;
-    int rect_area = w*h;
-    long x_r = getSum('r', ul, w, h);
-    long x_g = getSum('g', ul, w, h);
-    long x_b = getSum('b', ul, w, h);
-    long x_rsq = getSumSq('r', ul, w, h);
-    long x_gsq = getSumSq('g', ul, w, h);
-    long x_bsq = getSumSq('b', ul, w, h);    
+
+    double var = 0.0;
+    double rect_area = (double)w*h;
+    double x_r = (double)getSum('r', ul, w, h);
+    double x_g = (double)getSum('g', ul, w, h);
+    double x_b = (double)getSum('b', ul, w, h);
+    double x_rsq = (double)getSumSq('r', ul, w, h);
+    double x_gsq = (double)getSumSq('g', ul, w, h);
+    double x_bsq = (double)getSumSq('b', ul, w, h);    
 
     var  = (x_rsq - (x_r*x_r)/rect_area) + (x_gsq - (x_g*x_g)/rect_area) + (x_bsq - (x_b*x_b)/rect_area);
 
@@ -145,10 +144,10 @@ double stats::getVar(pair<int,int> ul, int w, int h){
 }
 		
 RGBAPixel stats::getAvg(pair<int,int> ul, int w, int h){
-/* Your code here!! */
-    long x_r = getSum('r', ul, w, h);
-    long x_g = getSum('g', ul, w, h);
-    long x_b = getSum('b', ul, w, h);
+    
+    double x_r = (double)getSum('r', ul, w, h);
+    double x_g = (double)getSum('g', ul, w, h);
+    double x_b = (double)getSum('b', ul, w, h);
 
     int r = x_r/(w*h);
     int g = x_g/(w*h);

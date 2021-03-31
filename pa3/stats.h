@@ -12,12 +12,12 @@ using namespace cs221util;
 class stats {
 
  private:
-  vector< vector< long >> sumRed;
-  vector< vector< long >> sumGreen;
-  vector< vector< long >> sumBlue;
-  vector< vector< long >> sumsqRed;
-  vector< vector< long >> sumsqGreen;
-  vector< vector< long >> sumsqBlue;
+  vector<vector<long>> sumRed;
+  vector<vector<long>> sumGreen;
+  vector<vector<long>> sumBlue;
+  vector<vector<long>> sumsqRed;
+  vector<vector<long>> sumsqGreen;
+  vector<vector<long>> sumsqBlue;
 
   /**
    * Returns the sums of all pixel values in one color channel.
@@ -68,9 +68,9 @@ class stats {
   RGBAPixel getAvg(pair<int,int> ul, int w, int h);
 
   /**
-   * HELPER FUNCTION
+   * Helper function to calculate sum in O(1) time and passing vector by reference 
    */
-  long quickSum(vector< vector< long >> sum_vect, pair<int,int> ul, int w, int h);
+  long quickSum(vector<vector<long>> &sum_vect, pair<int,int> ul, int w, int h);
 
 };
 
